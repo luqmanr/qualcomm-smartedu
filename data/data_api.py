@@ -6,9 +6,9 @@ $ curl -X POST http://localhost:3000/
 import base64
 from pathlib import Path
 import os
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory
 import jsonpickle
-import json
+import json, csv
 from flask_cors import CORS
 from dotenv import load_dotenv
 import datetime
@@ -148,7 +148,13 @@ def delete_user():
     # print(response)
     response = jsonpickle.encode(response)
     return Response(response)
-        
+
+@app.route('/cheating_log')
+def cheating_log():
+    cheating_log_csv = os.path.join(file_storage, "cheating_log.csv")
+    print(cheating_log_csv)
+    return send_from_directory(file_storage, "cheating_log.csv")
+ 
 
 def generate_face_encoding(email, file_storage):
     encoding_filename = os.path.join(file_storage, (email + ".npy"))
