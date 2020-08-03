@@ -21,6 +21,18 @@ load_dotenv(dotenv_path=env_path)
 api_port = os.getenv("API_PORT")
 file_storage = os.getenv("FILE_STORAGE")
 
+class RegistrationRequest:
+    def __init__():
+        self.email = user_email
+        self.user_name = user_name
+        self.user_password = user_password
+        self.base64 - user_image
+
+class VerificationRequest:
+    def __init__():
+        self.email = user_email
+        self.base64 = user_image
+
 @app.route('/register_user', methods = ['POST'])
 def register_user():
     # print("New request from %s" % request.remote_addr)
