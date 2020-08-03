@@ -36,7 +36,8 @@
             <!-- button untuk snap picture -->
             <div class='col-sm-6 button'>
                 <label for="snapout" 
-                    ref="snap">Capture</label>
+                    ref="snap"
+                    :hidden="!buttonView">Capture</label>
                 <input v-on:click="captureCanvas(); sendSnapshotToBus();" 
                     id="snapout" 
                     data-disable-touch-keyboard
@@ -45,7 +46,8 @@
 
             <div class='col-sm-6 button'>
                 <label for="switch-cam" 
-                    ref="switch-cam">Switch Camera</label>
+                    ref="switch-cam"
+                    :hidden="!buttonView">Switch Camera</label>
                 <input v-on:click="switchCamera()" 
                     id="switch-cam" 
                     data-disable-touch-keyboard
@@ -54,7 +56,8 @@
 
             <div class='col-sm-6 button'>
                 <label for="stop-video" 
-                    ref="stop-video">Stop Camera</label>
+                    ref="stop-video"
+                    :hidden="!buttonView">Stop Camera</label>
                 <input v-on:click="stopVideo()" 
                     id="stop-video" 
                     data-disable-touch-keyboard
@@ -63,7 +66,8 @@
 
             <div class='col-sm-6 button'>
                 <label for="retake-photo" 
-                    ref="retake-photo">Retake Photo</label>
+                    ref="retake-photo"
+                    :hidden="!buttonView">Retake Photo</label>
                 <input v-on:click="retakePhoto()" 
                     id="retake-photo" 
                     data-disable-touch-keyboard
@@ -86,6 +90,11 @@ import Video from '../../../src/assets/video.mp4'
 export default {
     components: {
         // QrcodeStream
+    },
+    props: {
+        buttonView: {
+            default: true
+        }
     },
     data() {
         return {
@@ -115,6 +124,7 @@ export default {
             },
             snapshot: "",
             videoStatus: false,
+            // buttonView: buttonView
         }
     },
     methods: {
