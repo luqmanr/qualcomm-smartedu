@@ -22,14 +22,14 @@ api_port = os.getenv("API_PORT")
 file_storage = os.getenv("FILE_STORAGE")
 
 class RegistrationRequest:
-    def __init__():
+    def __init__(self, user_email, user_name, user_password, user_image):
         self.email = user_email
         self.user_name = user_name
         self.user_password = user_password
         self.base64 - user_image
 
 class VerificationRequest:
-    def __init__():
+    def __init__(self, user_email, user_image):
         self.email = user_email
         self.base64 = user_image
 
