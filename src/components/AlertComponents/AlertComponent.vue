@@ -9,7 +9,6 @@
           @dismiss-count-down="countDownChanged"
           >
           <div style="background-color: red; color: white; padding: 5% 5% 5% 5%;">
-            <p>{{alertMessage[1]}}</p>
             <p>Kecurangan Terdeteksi!!</p>
           </div>
             
@@ -31,15 +30,15 @@ export default {
 
     },
     props: {
-        alertData: {
-            default: "undefined"
-        }
+        // alertData: {
+        //     default: "undefined"
+        // }
     },
     data() {
         return {
             dismissSecs: 5,
             dismissCountDown: 0,
-            alertMessage: this.alertData.split(",")
+            // alertMessage: this.alertData.split(",")
             // alertData: {
             //     message: undefined,
             // }

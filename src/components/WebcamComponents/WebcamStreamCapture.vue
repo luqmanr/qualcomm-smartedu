@@ -11,12 +11,18 @@
                     playsinline autoplay class="video-image">
                 </video> -->
                 <img v-if="snapshot" :src="snapshot" class="video-image">
-                <video :src="videoStreamSrc"
+                <img :src="videoStreamSrc"
+                    for="snapout"
+                    ref="video"
+                    id="video"
+                    class="video-image">
+                <!-- <video :src="videoStreamSrc"
                      for="snapout"
                      ref="video"
+                     id="video"
                      class="video-image"
                      playsinline autoplay muted loop>
-                </video>
+                </video> -->
             </div>
             
             <!-- HASIL WEBCAM SNAPSHOT-->
@@ -38,7 +44,7 @@
                 <label for="snapout" 
                     ref="snap"
                     :hidden="!buttonView">Capture</label>
-                <input v-on:click="captureCanvas(); sendSnapshotToBus();" 
+                <input v-on:click="getSnapshotBase64()" 
                     id="snapout" 
                     data-disable-touch-keyboard
                     readonly></input>
@@ -81,6 +87,10 @@
 </template>
   
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
 
 import { bus } from '../../main';
 import Video from '../../../src/assets/video.mp4'
@@ -98,8 +108,8 @@ export default {
     },
     data() {
         return {
-            // videoStreamSrc: "http://192.168.2.89:8081/video.mjpg?q=30&fps=33&id=0.45397737567418583&r=1595388937742",
-            videoStreamSrc: Video,
+	        videoStreamSrc: "http://192.168.2.89:8081/video.mjpg?q=30&fps=33&id=0.45397737567418583&r=1595388937742",
+            // videoStreamSrc: Video,
             videoObject: undefined,
             constraints : {
                 audio: false,
@@ -119,15 +129,30 @@ export default {
                 }
             },
             videoMetaData: {
-                width: undefined,
-                height: undefined
+                width: 1280,
+                height: 720
             },
             snapshot: "",
             videoStatus: false,
+            encodeBase64Endpoint: "http://localhost:3007/webcam_snapshot"
             // buttonView: buttonView
         }
     },
     methods: {
+        getSnapshotBase64() {
+            var apiEndpoint = this.encodeBase64Endpoint
+
+            axios.get(apiEndpoint,
+                { headers: { Pragma: 'no-cache'},
+                  timeout: 10000})
+            .then((response) => {
+                console.log(response)
+                this.snapshot = "data:image/png;base64," + response.data.return
+                // console.log(this.snapshot)
+             }).catch(error => {
+                 console.log(error)
+             })
+        },
         getVideo() {
             try {
                 navigator.mediaDevices.getUserMedia(this.constraints)
@@ -139,8 +164,9 @@ export default {
                       
                       video.onloadedmetadata = (e) => {
                           video.play();
-                          this.videoMetaData.width = e.srcElement.videoWidth
-                          this.videoMetaData.height = e.srcElement.videoHeight
+                          var height = e.srcElement.videoHeight
+                            var width = e.srcElement.videoWidth
+                            this.resizeVideoDimension(height, width)
                       };
 
                       this.captureVideo(video)
@@ -151,7 +177,9 @@ export default {
             }
         },
         streamVideo() {
-            const video = document.querySelector('video')
+            // const video = document.querySelector('#video')
+            const video = document.getElementById("video")
+
             video.onloadedmetadata = (e) => {
                 var height = e.srcElement.videoHeight
                 var width = e.srcElement.videoWidth
@@ -185,12 +213,25 @@ export default {
 
         },
         captureCanvas() {
-            const video = document.querySelector('video')
+            // const video = document.querySelector('#video')
+            const video = document.getElementById("video")
             // console.log(video)
+            // const canvas = this.$refs.canvas
+            // var context = canvas.getContext('2d')
+            // context.drawImage(video,0,0,this.videoMetaData.width, this.videoMetaData.height) // harus sesuai dengan ukuran canvasDOM
+
+            // this.snapshot = canvas.toDataURL()
+
             const canvas = this.$refs.canvas
             var context = canvas.getContext('2d')
-            context.drawImage(video,0,0,this.videoMetaData.width,this.videoMetaData.height) // harus sesuai dengan ukuran canvasDOM
 
+            var imageObj = new Image();
+            imageObj.setAttribute('crossOrigin', 'anonymous');
+            imageObj.onload = function() {
+                context.drawImage(imageObj,0,0,imageObj.width,imageObj.height) // harus sesuai dengan ukuran canvasDOM
+            };
+
+            imageObj.src = document.getElementById("video").getAttribute("src");
             this.snapshot = canvas.toDataURL()
             
         },
@@ -224,6 +265,7 @@ export default {
         }
     },
     mounted() {
+        // this.getVideo()
         this.streamVideo()
     },
     computed: {
@@ -233,6 +275,11 @@ export default {
         this.toggleWebcamFromBus()
     },
     watch: {
+        snapshot: function(e) {
+            if (e) {
+                this.sendSnapshotToBus()
+            }
+        },
         qrString: function(e) {
             //do something when the data changes.
             if (e) {

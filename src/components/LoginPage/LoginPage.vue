@@ -48,7 +48,8 @@ export default {
             registrationEndpoint: "http://localhost:3005/login_service",
             userData: {
                 userEmail: "",
-                userPassword: ""
+                userPassword: "",
+                userName: ""
             }
         }
     },
@@ -73,6 +74,7 @@ export default {
             .then((response) => {
                 console.log(response)
                 if (response.data.status == 200) {
+                    this.userData.userName = response.data.user_name
                     this.goToFaceVerification()       
                 } else {
                     alert(response.data.return)
@@ -92,8 +94,9 @@ export default {
             }
         },
         goToFaceVerification() {
-            this.$router.push({path:'/faceverification', query:{userEmail: this.userData.userEmail}})
-        }
+            this.$router.push({path:'/faceverification', query:{userEmail: this.userData.userEmail, userName: this.userData.userName}})
+//	    this.$router.push({path:}) 
+       }
     }
 }
 

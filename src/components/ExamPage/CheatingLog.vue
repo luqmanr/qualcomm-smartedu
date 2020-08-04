@@ -49,7 +49,7 @@ export default {
                         // this.cheatingData.push("YOU ARE NOT CHEATING")
                         // this.emitCheatingdata()
                     })
-            }, 3000)
+            }, 50)
         },
         cheatingLogUpdate(csv_lines) {
             // console.log(csv_lines)
@@ -65,13 +65,13 @@ export default {
         },
         checkCheatingStatusCode(csv_lines) {
             var line = csv_lines[this.cheatingLogIndex].split(",")
-            if (line[2] == "0") {
+            if (line[2] == "1") {
                 // alert(line)
-                console.log("cheating")
+                console.log(line[1], line[2])
                 this.cheatingData.push(line)
                 this.emitCheatingdata()
             } else {
-                console.log("NOT cheating")
+                console.log(line[1], line[2])
             }
         },
         skipCSVIndex() { // enable this function if you want to skip a row in the csv file

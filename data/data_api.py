@@ -163,9 +163,9 @@ def delete_user():
 
 @app.route('/cheating_log')
 def cheating_log():
-    cheating_log_csv = os.path.join(file_storage, "cheating_log.csv")
-    print(cheating_log_csv)
-    return send_from_directory(file_storage, "cheating_log.csv")
+    # cheating_log_csv = os.path.join("/home/ubuntu/workspace/face-verification/result/result.csv")
+    # print(cheating_log_csv)
+    return send_from_directory("/home/ubuntu/workspace/face-verification/result", "result.csv")
  
 
 def generate_face_encoding(email, file_storage):

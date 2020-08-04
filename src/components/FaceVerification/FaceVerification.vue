@@ -47,7 +47,8 @@ export default {
             registrationEndpoint: "http://localhost:3005/face_verification",
             userData: {
                 userEmail: "",
-                userImage: ""
+                userImage: "",
+		        userName: ""
             }
         }
     },
@@ -56,6 +57,8 @@ export default {
             // define JSON struct
             var userDataJSON = {
                 "user_email": this.userData.userEmail,
+                "user_image": this.userData.userImage,
+                "user_name": this.userData.userName
             };  console.log(userDataJSON);
             // Endpoint location
             var apiEndpoint = this.registrationEndpoint
@@ -80,9 +83,10 @@ export default {
         },
         receiveSnapshotFromBus() {
             bus.$on('getSnapshot', (image) => { // ini fungsi yang menerima snapshot dari webcam
-                this.userData.userImage = image
-                var base64 = image.split(',')[1]
+                // this.userData.userImage = image
+                this.userData.userImage = image.split(',')[1]
                 console.log("image captured")
+                // console.log(this.userData.userImage)
             })
         },
         goToExamPage() {
@@ -91,7 +95,8 @@ export default {
     },
     created() {
         this.userData.userEmail = this.$route.query.userEmail
-        console.log(this.userData.userEmail)
+        this.userData.userName = this.$route.query.userName
+        console.log(this.userData)
         this.receiveSnapshotFromBus()
     }
 }
