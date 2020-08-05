@@ -11,11 +11,10 @@ import cv2
 
 app = Flask(__name__)
 cors = CORS(app)
-env_path = Path('.') / '.env'
+env_path = Path('.') / 'base64.env'
 load_dotenv(dotenv_path=env_path)
 
 api_port = os.getenv("BASE64_SERVICE_PORT")
-file_storage = os.getenv("FILE_STORAGE")
 video_stream = os.getenv("VIDEO_STREAM")
 
 @app.route('/webcam_snapshot', methods = ['GET'])

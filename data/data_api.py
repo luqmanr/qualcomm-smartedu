@@ -165,7 +165,7 @@ def delete_user():
 def cheating_log():
     # cheating_log_csv = os.path.join("/home/ubuntu/workspace/face-verification/result/result.csv")
     # print(cheating_log_csv)
-    return send_from_directory("/home/ubuntu/workspace/face-verification/result", "result.csv")
+    return send_from_directory("/mnt/c/Users/User PC/workspace/RKB-Website/qualcomm-smartedu/data/database", "cheating_log.csv")
  
 
 def generate_face_encoding(email, file_storage):

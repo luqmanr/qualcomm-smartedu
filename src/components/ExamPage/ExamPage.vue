@@ -1,32 +1,35 @@
 <template>
 
-<div>
+<div class="row">
     <b-overlay :show="overlay" opacity="0.0" style="max-width: 95vw; margin: 0 auto; padding: 10px;">
 
         <div id="user_formdata" class="container-fluid">
 
             <div class="row row-1" style="height: 90vh;">
 
-                <div class="col-sm-3 col-md-3 col-xs-3 column-1" >
-                    COLUMN 1
+                <div class="col-sm-4 col-md-4 col-xs-4 column-1" >
+
                     <div style="height:0px;">
-                        <cheating-log @emitCheatingData="receiveCheatingData"></cheating-log>
-                    </div>                    
+                        <cheating-log @emitCheatingData="receiveCheatingData" :monitoring-status="cheatingLogStatus"></cheating-log>
+                    </div>     
+
                 </div>
 
                 <div class="col-sm-6 col-md-6 col-xs-6 column-2">
-                    COLUMN 2
-                    <p>{{examAnswers}}</p>
+
+                    <!-- <p>{{examAnswers}}</p> -->
                     <div style="height:0px;">
                         <exam-questions @emitAnswers="receiveAnswers"></exam-questions>
                     </div>
+
                 </div>
 
-                <div class="col-sm-3 col-md-3 col-xs-3 column-3">
-                    COLUMN 3
-                    <div style="margin: auto; overflow: hidden; height: 40%; width: 100%;">
-                        <webcam-stream :button-view="buttonView"></webcam-stream>
+                <div class="col-sm-2 col-md-2 col-xs-2 column-3">
+
+                    <div style="margin-left: -4vw; height: 40%; width: 100%;">
+                        <webcam-stream :button-view="buttonView" style="transform: scale(0.8, 0.8);"></webcam-stream>
                     </div>
+                    
                 </div>
 
             </div>
@@ -43,9 +46,11 @@
 
     </b-overlay>
 
-    <b-button variant="primary" @click="overlay=!overlay">
+    <b-button variant="primary" @click="submitAnswers()" style="max-width: 95vw; margin: 0 auto; padding: 10px;">Selesai!</b-button>
+
+    <!-- <b-button variant="primary" @click="overlay=!overlay">
         Show overlay
-    </b-button>
+    </b-button> -->
     <!-- <div>EXAM PAGE</div>
     <cheating-log></cheating-log>
     <webcam-stream></webcam-stream> -->
@@ -80,15 +85,18 @@ export default {
             buttonView: false,
             cheatingData: undefined,
             alertData: undefined,
+            cheatingMonitoringEndpoint: "http://localhost:3005/stop_monitoring",
+            cheatingLogStatus: true
         }
     },
     methods: {
         receiveAnswers(e) {
             this.examAnswers = e
             console.log(this.examAnswers)
-            this.submitAnswers()
         },
         submitAnswers() {
+            this.stopCheatingMonitoring() // to stop cheating monitoring
+
             const examAnswers = this.examAnswers
             var answers = []
             var i
@@ -111,12 +119,25 @@ export default {
               {timeout: 10})
             .then((response) => {
                 console.log(response)
+                this.goToResultPage()
                 // this.verifyStatus = true
                 // this.goToExamPage()              
              }).catch(error => {
                 console.log(error)
                 // alert("PLEASE RETAKE YOUR PHOTO")
                 })
+            
+            this.goToResultPage()
+        },
+        stopCheatingMonitoring() {
+            axios.post(
+                this.cheatingMonitoringEndpoint,
+                {timeout: 1000})
+              .then(response => {
+                  console.log(response)
+              }).catch(error => {
+                  console.log(response)
+              })
         },
         receiveCheatingData(e) {
             console.log("cheating data received")
@@ -124,6 +145,16 @@ export default {
             this.cheatingData = e
             this.alertData = e[e.length -1]
             this.overlay = !this.overlay
+        },
+        goToResultPage() {
+            this.cheatingLogStatus = !this.cheatingLogStatus
+            setTimeout(
+                // this.$router.push("/"), 3000
+                () => {
+                    this.$router.push("/")
+                }, 5000
+            )
+            // this.$router.go(this.$router.push("/"))
         }
     }
 }

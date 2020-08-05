@@ -43,14 +43,14 @@
             <div class='col-sm-6 button'>
                 <label for="snapout" 
                     ref="snap"
-                    :hidden="!buttonView">Capture</label>
+                    :hidden="!buttonView">Ambil Foto Muka</label>
                 <input v-on:click="getSnapshotBase64()" 
                     id="snapout" 
                     data-disable-touch-keyboard
                     readonly></input>
             </div>
 
-            <div class='col-sm-6 button'>
+            <!-- <div class='col-sm-6 button'>
                 <label for="switch-cam" 
                     ref="switch-cam"
                     :hidden="!buttonView">Switch Camera</label>
@@ -58,9 +58,9 @@
                     id="switch-cam" 
                     data-disable-touch-keyboard
                     readonly></input>
-            </div>
+            </div> -->
 
-            <div class='col-sm-6 button'>
+            <!-- <div class='col-sm-6 button'>
                 <label for="stop-video" 
                     ref="stop-video"
                     :hidden="!buttonView">Stop Camera</label>
@@ -68,12 +68,12 @@
                     id="stop-video" 
                     data-disable-touch-keyboard
                     readonly></input>
-            </div>
+            </div> -->
 
             <div class='col-sm-6 button'>
                 <label for="retake-photo" 
                     ref="retake-photo"
-                    :hidden="!buttonView">Retake Photo</label>
+                    :hidden="!buttonView">Hapus Foto</label>
                 <input v-on:click="retakePhoto()" 
                     id="retake-photo" 
                     data-disable-touch-keyboard
@@ -335,12 +335,14 @@ export default {
     border-radius: 4px;
     background: dodgerblue;
     color: white;
-    width: 15vh;
+    max-width: 25vh;
     cursor: pointer;
-    margin: auto;
+    /* margin: auto; */
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    min-height: 3vw;
 }
 
 .video-wrap {

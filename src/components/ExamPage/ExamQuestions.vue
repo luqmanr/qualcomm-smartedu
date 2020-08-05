@@ -1,20 +1,20 @@
 <template>
     <div style="height:100%; color: white;">
-
-        <div v-for="question,index in questionAnswers" class="row">
-            <span class="col-sm-12">{{question.question}}</span>
+        <div style="font-weight: bolder; font-size: larger; margin-bottom: 2vh;">PERTANYAAN UJIAN</div>
+        <div v-for="question,index in questionAnswers" class="row" style="margin-bottom: 2vh;">
+            <span class="col-sm-12" style="margin-bottom: 2vh;">{{index+1}}. {{question.question}}</span>
             <!-- <input v-for="answers in question.answers" :name="question.question" type="radio" :value="answers">{{answers}}</input> -->
             <div v-for="answers,ansIndex in question.answers" class="col-sm-12">
                 
                 <label>
                     <input type="radio" :id="answers" :name="index" @click="updateAnswer(index, ansIndex)">
-                    <span>{{answers}}</span>
+                    <span style="margin-left: 2vw;">{{answers}}</span>
                 </label>
 
             </div>
         </div>
 
-        <button @click="emitAnswers">SUBMIT ANSWERS</button>
+        <!-- <button @click="emitAnswers">SUBMIT ANSWERS</button> -->
 
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             examQuestions: examQuestionsJSON,
-            testAnswers: []
+            userAnswers: []
         }
     },
     computed: {
@@ -43,20 +43,25 @@ export default {
             var i
             for (i in examQuestionsJSON.data) {
                 // console.log(i)
-                this.testAnswers.push(null)
+                this.userAnswers.push(null)
             }
-            // console.log(this.testAnswers)
+            // console.log(this.userAnswers)
         },
         updateAnswer(index, answers) {
-            this.testAnswers[index] = answers;
-            console.log(this.testAnswers)
+            this.userAnswers[index] = answers;
+            console.log(this.userAnswers)
         },
         emitAnswers() {
-            this.$emit("emitAnswers", this.testAnswers)
+            this.$emit("emitAnswers", this.userAnswers)
         }
     },
     created() {
         this.getQuestionsLength()
+    },
+    watch: {
+        userAnswers() {
+            this.emitAnswers()
+        }
     }
 }
 </script>

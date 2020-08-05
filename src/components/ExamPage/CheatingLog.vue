@@ -1,13 +1,14 @@
 <template>
 
-<div style="height:100%;"">
-    <div>CHEATING LOG</div>
-    <div v-for="cheatingDataLines in cheatingData" class="row" style="font-size:small;">
-        <div class="col-md-4">Timestamp = {{cheatingDataLines[0]}}</div>
-        <div class="col-md-4">Message = {{cheatingDataLines[1]}}</div>
-        <div class="col-md-4">Status Code = {{cheatingDataLines[2]}}</div>
+<div style="height:100%;">
+    <div style="font-weight: bolder;">CHEATING LOG</div>
+    <div v-for="cheatingDataLines in cheatingData" class="row cheating_log" :class="statusCodeClass(cheatingDataLines[2])" style="font-size:small;">
+        <div class="col-md-6">{{cheatingDataLines[0]}}</div>
+        <div class="col-md-6">{{cheatingDataLines[1]}}</div>
+        <!-- <div class="col-md-4">Status Code = {{cheatingDataLines[2]}}</div> -->
     </div>
     <!-- {{cheatingData}} -->
+    <button @click="monitoringStatus = !monitoringStatus">Click</button>
 </div>
 
 </template>
@@ -22,6 +23,11 @@ Vue.use(VueAxios, axios)
 import { bus } from '../../main';
 
 export default {
+    props: {
+        monitoringStatus: {
+            default: false
+        }
+    },
     components: {
 
     },
@@ -29,12 +35,16 @@ export default {
         return {
             cheatingData: [],
             cheatingLogIndex: 1,
-            csvSkipTries: 3
+            csvSkipTries: 3,
+            // monitoringStatus: true
         }
     },
     methods: {
         fetchCheatingData() {
-            setInterval(e => {                    
+            setInterval(e => {       
+                if (this.monitoringStatus == false) {
+                    return
+                }           
                 axios.get(
                     'http://localhost:3005/cheating_log',
                     { headers: { Pragma: 'no-cache'}, 
@@ -68,10 +78,24 @@ export default {
             if (line[2] == "1") {
                 // alert(line)
                 console.log(line[1], line[2])
-                this.cheatingData.push(line)
+                var timestamp = ((line[0].split("."))[0].split(" "))[1]
+                var cheating_line = [timestamp, line[1], line[2]]
+                this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
+            } else if (line[2] == "2") {
+                console.log(line[1], line[2])
+                var timestamp = ((line[0].split("."))[0].split(" "))[1]
+                var cheating_line = [timestamp, line[1], line[2]]
+                this.cheatingData.push(cheating_line)
             } else {
                 console.log(line[1], line[2])
+            }
+        },
+        statusCodeClass(statusCode) {
+            if (statusCode == "1") {
+                return "cheating"
+            } else if (statusCode == "2") {
+                return "warning"
             }
         },
         skipCSVIndex() { // enable this function if you want to skip a row in the csv file
@@ -83,6 +107,9 @@ export default {
         },
         emitCheatingdata() {
             this.$emit("emitCheatingData", this.cheatingData)
+        },
+        changeStoppedStatus() {
+            this.monitoringStatus = !this.monitoringStatus
         }
     },
     mounted() {
@@ -92,5 +119,21 @@ export default {
 </script>
 
 <style scoped>
+
+.cheating_log {
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+
+    font-weight: 700;
+    background-color: rgb(249, 255, 240);
+} 
+.cheating {
+    background-color: rgb(255, 103, 103);
+}
+.warning {
+    background-color: rgb(255, 208, 0);
+}
 
 </style>

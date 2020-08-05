@@ -1,15 +1,20 @@
 <template>
-    <div style="max-width: 1080px; margin: 0 auto; padding: 10px;">
+    <div class="container row" style="max-width: 1080px; margin: 0 auto; padding: 10px;">
         
-        <div class="container">LOGIN PAGE</div>
+        <!-- <div class="container-fluid col-md-12">
 
-        <div id="user_formdata" class="container-fluid">
+            <div></div>
+            <div></div>
+            
+        </div> -->
 
-            <div class="row">   
+        <div id="login_view" class="container-fluid col-md-12">
+
+            <div class="row" style="margin: auto;">   
 
                 <div class="col-sm-12 col-md-12 col-xs-12 row">
                     <span class="col-sm-12 col-md-12 col-xs-12">e-mail: </span>
-                    <input  type=text v-model.lazy="userData.userEmail" 
+                    <input  type=email v-model.lazy="userData.userEmail" 
                             class="col-sm-12 col-md-12 col-xs-12">
                 </div>
 
@@ -19,13 +24,23 @@
                             class="col-sm-12 col-md-12 col-xs-12">
                 </div>
 
+                <div class='col-sm-12 col-md-12 col-xs-12 row button'>
+                    <label  class="col-sm-12 col-md-12 col-xs-12"
+                            for="submit-userdata">LOGIN</label>
+                    <input  @click="submitLoginData()" 
+                            id="submit-userdata" 
+                            data-disable-touch-keyboard
+                            readonly></input>
+                </div>
+
             </div>
 
         </div>
 
-        <div id="login_button">
+        <!-- <div id="login_button">
             <button @click="submitLoginData()">LOGIN</button>
-        </div>
+        </div> -->
+
 
     </div>
 </template>
@@ -48,8 +63,7 @@ export default {
             registrationEndpoint: "http://localhost:3005/login_service",
             userData: {
                 userEmail: "",
-                userPassword: "",
-                userName: ""
+                userPassword: ""
             }
         }
     },
@@ -74,7 +88,6 @@ export default {
             .then((response) => {
                 console.log(response)
                 if (response.data.status == 200) {
-                    this.userData.userName = response.data.user_name
                     this.goToFaceVerification()       
                 } else {
                     alert(response.data.return)
@@ -94,9 +107,8 @@ export default {
             }
         },
         goToFaceVerification() {
-            this.$router.push({path:'/faceverification', query:{userEmail: this.userData.userEmail, userName: this.userData.userName}})
-//	    this.$router.push({path:}) 
-       }
+            this.$router.push({path:'/faceverification', query:{userEmail: this.userData.userEmail}})
+        }
     }
 }
 
@@ -104,10 +116,42 @@ export default {
 
 <style scoped>
 
+#login_view {
+    padding: 5vh;
+    max-width: 80vw;
+    /* background-color:aliceblue; */
+    border-radius: 1vh;
+    border-style: outset;
+    border-color:rgb(136, 169, 231)
+}
+
+.button {
+    padding: 1vh;
+} .button input{
+    z-index: -2;
+    opacity: 0;
+    position: absolute;
+} .button label{
+    border-radius: 4px;
+    background:green;
+    color: white;
+    font-weight: bolder;
+    max-width: 25vh;
+    cursor: pointer;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 5vw;
+}
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto;
+    max-height: 90vh;
 }
 
 </style>
