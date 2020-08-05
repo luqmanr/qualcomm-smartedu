@@ -127,7 +127,8 @@ export default {
                 .then((response) => {
                     console.log(response)
                     if (response.data.status == 200) {
-                        this.registrationStatus = true  
+                        this.registrationStatus = true 
+                        alert("Registrasi Berhasil")
                     } else {
                         alert("USER ALREADY EXISTS")
                         return
@@ -171,6 +172,16 @@ export default {
             } else {
                 return true
             }
+        },
+        startAutoTrain() {
+            axios.post(
+                "http://localhost:3005/start_autotrain",
+                {timeout: 3000}
+              ).then(response => {
+                  console.log(response)
+              }).catch(error => {
+                  console.log(error)
+              })
         }
     },
     computed: {
@@ -191,6 +202,9 @@ export default {
     },
     created() {
         this.receiveSnapshotFromBus()
+    },
+    mounted() {
+        // this.startAutoTrain
     }
 }
 

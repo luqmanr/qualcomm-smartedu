@@ -11,6 +11,11 @@
 
 <script>
 
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
 import logoITB from '../assets/logo-ITB.png'
 
 export default {
@@ -21,6 +26,16 @@ export default {
         return {
             logoITB: logoITB
         }
+    },
+    mounted() {
+        axios.post(
+            "http://localhost:3005/start_autotrain",
+            {timeout: 1000}
+        ).then(response => {
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+        })
     }
 }
 

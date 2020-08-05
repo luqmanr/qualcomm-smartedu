@@ -7,7 +7,7 @@
 
             <div class="row row-1" style="height: 90vh;">
 
-                <div class="col-sm-4 col-md-4 col-xs-4 column-1" >
+                <div class="col-sm-4 col-md-4 col-xs-4 column-1" id="cheating_log">
 
                     <div style="height:0px;">
                         <cheating-log @emitCheatingData="receiveCheatingData" :monitoring-status="cheatingLogStatus"></cheating-log>
@@ -46,7 +46,8 @@
 
     </b-overlay>
 
-    <b-button variant="primary" @click="submitAnswers()" style="max-width: 95vw; margin: 0 auto; padding: 10px;">Selesai!</b-button>
+    <b-button variant="primary" @click="submitAnswers()" style="max-width: 95vw; margin: 0 auto; padding: 10px;" 
+        class="col-md-12">Selesai!</b-button>
 
     <!-- <b-button variant="primary" @click="overlay=!overlay">
         Show overlay
@@ -96,6 +97,7 @@ export default {
         },
         submitAnswers() {
             this.stopCheatingMonitoring() // to stop cheating monitoring
+            // this.startAutoTrain()
 
             const examAnswers = this.examAnswers
             var answers = []
@@ -107,7 +109,8 @@ export default {
             // define JSON struct
             var userDataJSON = {
                 "answers": answers
-            };  console.log(userDataJSON);
+            };  
+            // console.log(userDataJSON);
            
 
             // Endpoint location
@@ -118,7 +121,7 @@ export default {
               {headers :{'Content-Type': 'application/json'}},
               {timeout: 10})
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 this.goToResultPage()
                 // this.verifyStatus = true
                 // this.goToExamPage()              
@@ -139,12 +142,25 @@ export default {
                   console.log(response)
               })
         },
+        startAutoTrain() {
+            axios.post(
+                "http://localhost:3005/start_autotrain",
+                {timeout: 3000}
+              ).then(response => {
+                  console.log(response)
+              }).catch(error => {
+                  console.log(error)
+              })
+        },
         receiveCheatingData(e) {
-            console.log("cheating data received")
-            console.log(e)
+            // console.log("cheating data received")
+            // console.log(e)
             this.cheatingData = e
             this.alertData = e[e.length -1]
             this.overlay = !this.overlay
+
+            var container = this.$el.querySelector("#cheating_log");
+            container.scrollTop = container.scrollHeight;
         },
         goToResultPage() {
             this.cheatingLogStatus = !this.cheatingLogStatus

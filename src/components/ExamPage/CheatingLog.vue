@@ -8,7 +8,7 @@
         <!-- <div class="col-md-4">Status Code = {{cheatingDataLines[2]}}</div> -->
     </div>
     <!-- {{cheatingData}} -->
-    <button @click="monitoringStatus = !monitoringStatus">Click</button>
+    <!-- <button @click="monitoringStatus = !monitoringStatus">Click</button> -->
 </div>
 
 </template>
@@ -40,6 +40,19 @@ export default {
         }
     },
     methods: {
+        fetchCSVIndex() {
+            axios.get(
+            'http://localhost:3005/cheating_log',
+            { headers: { Pragma: 'no-cache'}, 
+                timeout: 1000 })
+            .then(response => {
+                var csv_lines = response.data.split(/\r?\n/)
+                this.cheatingLogIndex = (csv_lines.length)
+                console.log(this.cheatingLogIndex)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         fetchCheatingData() {
             setInterval(e => {       
                 if (this.monitoringStatus == false) {
@@ -52,6 +65,8 @@ export default {
                   .then(response => {
                         // console.log(response.data)
                         var csv_lines = response.data.split(/\r?\n/)
+                        // this.cheatingLogIndex = (csv_lines.length) - 1
+                        // console.log(this.cheatingLogIndex)
                         this.cheatingLogUpdate(csv_lines)
                         // this.emitCheatingdata()
                   }).catch(error => {
@@ -64,10 +79,11 @@ export default {
         cheatingLogUpdate(csv_lines) {
             // console.log(csv_lines)
             if (csv_lines[this.cheatingLogIndex] == "" || csv_lines[this.cheatingLogIndex] == null) {
-                console.log("skipped")
+                // console.log("skipped")
+                // return
                 // this.skipCSVIndex()
             } else {
-                console.log("not skipped")
+                // console.log("not skipped")
                 // this.cheatingData.push(csv_lines[this.cheatingLogIndex])
                 this.checkCheatingStatusCode(csv_lines)
                 this.cheatingLogIndex ++
@@ -77,18 +93,21 @@ export default {
             var line = csv_lines[this.cheatingLogIndex].split(",")
             if (line[2] == "1") {
                 // alert(line)
-                console.log(line[1], line[2])
+                // console.log(line[1], line[2])
                 var timestamp = ((line[0].split("."))[0].split(" "))[1]
                 var cheating_line = [timestamp, line[1], line[2]]
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
+                // console.log(cheating_line)
             } else if (line[2] == "2") {
-                console.log(line[1], line[2])
+                // console.log(line[1], line[2])
                 var timestamp = ((line[0].split("."))[0].split(" "))[1]
                 var cheating_line = [timestamp, line[1], line[2]]
                 this.cheatingData.push(cheating_line)
+                // console.log(cheating_line)
             } else {
-                console.log(line[1], line[2])
+                // console.log(line[1], line[2])
+                return
             }
         },
         statusCodeClass(statusCode) {
@@ -113,6 +132,7 @@ export default {
         }
     },
     mounted() {
+        // this.fetchCSVIndex()
         this.fetchCheatingData()
     }
 }

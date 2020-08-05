@@ -57,7 +57,7 @@ export default {
     },
     data() {
         return {
-            registrationEndpoint: "http://localhost:3005/face_verification",
+            faceVerificationEndpoint: "http://localhost:3005/face_verification",
             cheatingMonitoringEndpoint: "http://localhost:3005/start_monitoring",
             userData: {
                 userEmail: "",
@@ -75,7 +75,7 @@ export default {
                 "user_name": this.userData.userName
             };  console.log(userDataJSON);
             // Endpoint location
-            var apiEndpoint = this.registrationEndpoint
+            var apiEndpoint = this.faceVerificationEndpoint
             // hit Endpoint with axios.post
             axios.post(apiEndpoint,
               JSON.stringify(userDataJSON),
@@ -104,10 +104,21 @@ export default {
             })
         },
         startCheatingMonitoring() {
+            // this.stopAutoTrain()
             axios.post(
                 this.cheatingMonitoringEndpoint,
                 {timeout: 1000})
               .then(response => {
+                  console.log(response)
+              }).catch(error => {
+                  console.log(error)
+              })
+        },
+        stopAutoTrain() {
+            axios.post(
+                "http://localhost:3005/stop_autotrain",
+                {timeout: 3000}
+              ).then(response => {
                   console.log(response)
               }).catch(error => {
                   console.log(error)
