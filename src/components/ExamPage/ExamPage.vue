@@ -38,9 +38,12 @@
 
         <!-- <b-overlay :show="overlay"> -->
 
-            <template v-slot:overlay>
-                <alert-modal @emitOverlay="overlay=!overlay" :alert-data="alertData"></alert-modal>
-            </template>
+        <template v-slot:overlay>
+            <alert-modal 
+              @emitOverlay="overlay=!overlay" 
+              :alert-data="alertData"
+              :button-class="buttonClass"></alert-modal>
+        </template>
             
         <!-- </b-overlay> -->
 
@@ -87,7 +90,8 @@ export default {
             cheatingData: undefined,
             alertData: undefined,
             cheatingMonitoringEndpoint: "http://localhost:3005/stop_monitoring",
-            cheatingLogStatus: true
+            cheatingLogStatus: true,
+            buttonClass: "danger"
         }
     },
     methods: {
@@ -156,7 +160,7 @@ export default {
             // console.log("cheating data received")
             // console.log(e)
             this.cheatingData = e
-            this.alertData = e[e.length -1]
+            this.alertData = e[e.length -1][1]
             this.overlay = !this.overlay
 
             var container = this.$el.querySelector("#cheating_log");
@@ -182,20 +186,24 @@ export default {
 }
 
 .column-1 {
-    background-color: aqua;
+    background-color: rgb(212, 212, 212);
     overflow-y: scroll;
+    color: black;
 }
 
 .column-2 {
-    background-color: blue;
+    background-color: rgb(212, 212, 212);
     overflow-y: scroll;
+    color: black;
+    font-weight: 500;
 }
 
 .column-3 {
-    background-color: purple;
+    background-color: rgb(212, 212, 212);
     overflow: hidden;
     align-items: center;
     justify-content: center;
+    color: black;
 }
 
 </style>

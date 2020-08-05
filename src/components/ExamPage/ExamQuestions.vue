@@ -1,5 +1,5 @@
 <template>
-    <div style="height:100%; color: white;">
+    <div style="height:100%;">
         <div style="font-weight: bolder; font-size: larger; margin-bottom: 2vh;">PERTANYAAN UJIAN</div>
         <div v-for="question,index in questionAnswers" class="row" style="margin-bottom: 2vh;">
             <span class="col-sm-12" style="margin-bottom: 2vh;">{{index+1}}. {{question.question}}</span>

@@ -4,12 +4,14 @@
         <b-alert
           :show="dismissCountDown"
           dismissible
-          variant="danger"
+          :variant="buttonVariant"
           @dismissed="dismissCountDown=0"
           @dismiss-count-down="countDownChanged"
           >
-          <div style="background-color: red; color: white; padding: 5% 5% 5% 5%;">
-            <p>Kecurangan Terdeteksi!!</p>
+          <div style="padding: 5% 5% 5% 5%;" :class="buttonClass">
+            <p>{{alertData}}</p>
+            <!-- <p>Kecurangan Terdeteksi!!</p> -->
+            <p v-if="dismissSecs != 5">{{dismissCountDown}}</p>
           </div>
             
             <!-- <p>DI SINI NANTI ADALAH PLACEHOLDER CHEATING INFO</p>
@@ -30,13 +32,21 @@ export default {
 
     },
     props: {
-        // alertData: {
-        //     default: "undefined"
-        // }
+        alertData: {
+            default: "undefined"
+        },
+        dismissSecs: {
+            default: 5
+        },
+        buttonVariant: {
+            default: "danger"
+        },
+        buttonClass: {
+            default: "countdown"
+        }
     },
     data() {
         return {
-            dismissSecs: 5,
             dismissCountDown: 0,
             // alertMessage: this.alertData.split(",")
             // alertData: {
@@ -68,5 +78,13 @@ export default {
 </script>
 
 <style scoped>
+.primary {
+    
+}
+.warning {
 
+}
+.danger {
+    background-color: red; color: white; 
+}
 </style>

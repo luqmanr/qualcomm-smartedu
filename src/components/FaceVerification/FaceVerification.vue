@@ -1,48 +1,59 @@
 <template>
     <div style="max-width: 1080px; margin: 0 auto; padding: 10px;">
-        
-        <!-- <div class="container-fluid col-md-12">
-
-            <div></div>
-            <div></div>
+        <b-overlay :show="overlay" opacity="0.0" style="max-width: 100vw; margin: 0 auto; padding: 10px;">
             
-        </div> -->
+            <!-- <div class="container-fluid col-md-12">
 
-        <div id="login_view" class="container-fluid">
+                <div></div>
+                <div></div>
+                
+            </div> -->
 
-            <div class="row" style="max-width: 50vw; margin: auto;">
-                <webcam class="col-md-6"></webcam>
-                <!-- <div class="row">   
-                    <div class="col-sm-12 col-md-12 col-xs-12 row">
-                        <span class="col-sm-12 col-md-12 col-xs-12">Nama: </span>
-                        <input  type=text v-model.lazy="userData.userName"
-                                class="col-sm-12 col-md-12 col-xs-12">
+            <div id="login_view" class="container-fluid">
+
+                <div class="row" style="max-width: 50vw; margin: auto;">
+                    <webcam class="col-md-6"></webcam>
+                    <!-- <div class="row">   
+                        <div class="col-sm-12 col-md-12 col-xs-12 row">
+                            <span class="col-sm-12 col-md-12 col-xs-12">Nama: </span>
+                            <input  type=text v-model.lazy="userData.userName"
+                                    class="col-sm-12 col-md-12 col-xs-12">
+                        </div>
+                    </div> -->
+                    <div class="row col-md-12">   
+                        <div class='col-sm-12 col-md-12 col-xs-12 row button'>
+                            <label  class="col-sm-12 col-md-12 col-xs-12"
+                                    for="submit-userdata">Verifikasi Muka</label>
+                            <input  @click="submitUserData()" 
+                                    id="submit-userdata" 
+                                    data-disable-touch-keyboard
+                                    readonly></input>
+                        </div>
                     </div>
-                </div> -->
-                <div class="row col-md-12">   
-                    <div class='col-sm-12 col-md-12 col-xs-12 row button'>
-                        <label  class="col-sm-12 col-md-12 col-xs-12"
-                                for="submit-userdata">Verifikasi Muka</label>
-                        <input  @click="submitUserData()" 
-                                id="submit-userdata" 
-                                data-disable-touch-keyboard
-                                readonly></input>
-                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+            <template v-slot:overlay>
+                <alert-modal 
+                  @emitOverlay="overlay=!overlay" 
+                  :alert-data="alertData" 
+                  :dismiss-secs="dismissSecs" 
+                  :button-variant="buttonVariant"
+                  :button-class="buttonClass"
+                  style="min-width: 50vw;"></alert-modal>
+            </template>
+        </b-overlay>
 
-        <!-- <div id="submit_button">
-            <button @click="submitUserData()">VERIFY FACE</button>
-        </div> -->
+        <!-- <button @click="goToExamPage">OVERLAY TOGGLE</button> -->
 
     </div>
 </template>
 
 <script>
 import Webcam from '../WebcamComponents/WebcamStreamCapture.vue'
+import AlertModal from '../AlertComponents/AlertComponent.vue'
 
 import Vue from 'vue'
 import axios from 'axios'
@@ -53,7 +64,8 @@ import { bus } from '../../main'
 
 export default {
     components: {
-        "webcam": Webcam
+        "webcam": Webcam,
+        "alert-modal": AlertModal
     },
     data() {
         return {
@@ -63,7 +75,12 @@ export default {
                 userEmail: "",
                 userImage: "",
 		        userName: ""
-            }
+            },
+            overlay: false,
+            alertData: "Ujian Akan Dimulai dalam... ",
+            dismissSecs: 15,
+            buttonVariant: "primary",
+            buttonClass: "primary"
         }
     },
     methods: {
@@ -126,7 +143,10 @@ export default {
         },
         goToExamPage() {
             this.startCheatingMonitoring()
-            this.$router.push('/exam')
+            this.overlay = !this.overlay
+            setTimeout(() => {
+                this.$router.push('/exam')
+            }, this.dismissSecs*1000) //nunggu 10 detik sebelum masuk ke examPage
         }
     },
     created() {
