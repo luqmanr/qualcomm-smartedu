@@ -76,11 +76,17 @@ export default {
 </script>
 
 <style scoped>
-.primary {
-    
+.primary  {
+    font-size: 200%;
+    color: rgb(0, 235, 90);
+    font-weight: bold;
+    text-shadow: -1px -1px 0 rgb(4, 134, 167), 1px -1px 0 rgb(4, 134, 167), -1px 1px 0 rgb(167, 4, 4), 1px 1px 0 rgb(167, 4, 4);
 }
 .warning {
-
+    font-size: 200%;
+    color: rgb(255, 235, 57);
+    font-weight: bold;
+    text-shadow: -1px -1px 0 rgb(167, 4, 4), 1px -1px 0 rgb(167, 4, 4), -1px 1px 0 rgb(167, 4, 4), 1px 1px 0 rgb(167, 4, 4);
 }
 .danger {
     background-color: red; color: white; 

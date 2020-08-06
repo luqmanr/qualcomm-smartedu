@@ -26,7 +26,7 @@
                 <b-overlay no-fade :show="col3_overlay" opacity="0.0" class="col-sm-6 col-md-6 col-xs-6 column-3">
 
                     <div style="height: 100%; width: 100%;">
-                        <webcam-stream :button-view="buttonView" style="transform: scale(1.8, 1.8);"></webcam-stream>
+                        <webcam-stream :button-view="buttonView" style="margin-top: 20vh; transform: scale(1.8, 1.8);"></webcam-stream>
                     </div>
 
                     <template v-slot:overlay>
@@ -57,9 +57,9 @@
     <b-button variant="primary" @click="submitAnswers()" style="max-width: 95vw; margin: 0 auto; padding: 10px;" 
         class="col-md-12">Selesai!</b-button>
 
-    <b-button variant="primary" @click="col3_overlay=!col3_overlay">
+    <!-- <b-button variant="primary" @click="col3_overlay=!col3_overlay">
         Show col3_overlay
-    </b-button>
+    </b-button> -->
 
 </div>
 
@@ -166,6 +166,15 @@ export default {
             // console.log(e)
             this.cheatingData = e
             this.alertData = e[e.length -1][1]
+            // alert(e[e.length -1][2])
+
+            if (e[e.length -1][2] == "1") {
+                this.col3ButtonClass = "transparent"
+            } else if (e[e.length-1][2] == "2") {
+                this.col3ButtonClass = "warning"
+            } else {
+                this.col3ButtonClass = "primary"
+            }
 
             // this.main_overlay = !this.main_overlay
             this.col3_overlay = !this.col3_overlay

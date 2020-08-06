@@ -47,13 +47,15 @@ export default {
                 timeout: 1000 })
             .then(response => {
                 var csv_lines = response.data.split(/\r?\n/)
-                this.cheatingLogIndex = (csv_lines.length)
-                console.log(this.cheatingLogIndex)
+                if (csv_lines.length -1 > this.cheatingLogIndex) {
+                    this.cheatingLogIndex = csv_lines.length - 2
+                }
             }).catch(error => {
                 console.log(error)
             })
         },
         fetchCheatingData() {
+            this.fetchCSVIndex()
             setInterval(e => {       
                 if (this.monitoringStatus == false) {
                     return
@@ -65,6 +67,10 @@ export default {
                   .then(response => {
                         // console.log(response.data)
                         var csv_lines = response.data.split(/\r?\n/)
+                        // if (csv_lines.length -1 > this.cheatingLogIndex) {
+                        //     this.cheatingLogIndex = csv_lines.length - 2
+                        // }
+                        // console.log(csv_lines[1])
                         // this.cheatingLogIndex = (csv_lines.length) - 1
                         // console.log(this.cheatingLogIndex)
                         this.cheatingLogUpdate(csv_lines)
@@ -107,20 +113,26 @@ export default {
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
                 // console.log(cheating_line)
-            } else {
-                this.csvSkipTries = this.csvSkipTries - 1
-
-                if (this.csvSkipTries == 0 ){
-                    var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                    var cheating_line = [timestamp, line[1], line[2]]
-                    this.cheatingData.push(cheating_line)
-                    this.emitCheatingdata()
-
-                    this.csvSkipTries = 3
-                }
-                // console.log(line[1], line[2])
-                // return
+            } else if (line[2] == "0") {
+                var timestamp = ((line[0].split("."))[0].split(" "))[1]
+                var cheating_line = [timestamp, line[3], line[2]]
+                this.cheatingData.push(cheating_line)
+                this.emitCheatingdata()
             }
+            // else {
+            //     this.csvSkipTries = this.csvSkipTries - 1
+
+            //     if (this.csvSkipTries == 0 ){
+            //         var timestamp = ((line[0].split("."))[0].split(" "))[1]
+            //         var cheating_line = [timestamp, line[1], line[2]]
+            //         this.cheatingData.push(cheating_line)
+            //         this.emitCheatingdata()
+
+            //         this.csvSkipTries = 3
+            //     }
+            //     // console.log(line[1], line[2])
+            //     // return
+            // }
         },
         statusCodeClass(statusCode) {
             if (statusCode == "1") {
@@ -170,7 +182,7 @@ export default {
     background-color: rgb(255, 115, 0);
 }
 .normal {
-    background-color: rgb(253, 255, 119);
+    background-color: rgb(119, 255, 153);
 }
 
 </style>
