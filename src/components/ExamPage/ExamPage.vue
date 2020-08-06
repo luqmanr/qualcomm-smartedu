@@ -1,7 +1,7 @@
 <template>
 
 <div class="row">
-    <b-overlay :show="overlay" opacity="0.0" style="max-width: 95vw; margin: 0 auto; padding: 10px;">
+    <b-overlay :show="main_overlay" opacity="0.0" style="max-width: 95vw; margin: 0 auto; padding: 10px;">
 
         <div id="user_formdata" class="container-fluid">
 
@@ -15,50 +15,52 @@
 
                 </div>
 
-                <div class="col-sm-6 col-md-6 col-xs-6 column-2">
+                <!-- <div class="col-sm-6 col-md-6 col-xs-6 column-2">
 
-                    <!-- <p>{{examAnswers}}</p> -->
                     <div style="height:0px;">
                         <exam-questions @emitAnswers="receiveAnswers"></exam-questions>
                     </div>
 
-                </div>
+                </div> -->
 
-                <div class="col-sm-2 col-md-2 col-xs-2 column-3">
+                <b-overlay :show="col3_overlay" opacity="0.0" class="col-sm-8 col-md-8 col-xs-8 column-3">
 
-                    <div style="margin-left: -4vw; height: 40%; width: 100%;">
-                        <webcam-stream :button-view="buttonView" style="transform: scale(0.8, 0.8);"></webcam-stream>
+                    <div style="height: 100%; width: 100%;">
+                        <webcam-stream :button-view="buttonView" style="transform: scale(1.8, 1.8);"></webcam-stream>
                     </div>
+
+                    <template v-slot:overlay>
+                        <alert-modal 
+                          @emitOverlay="col3_overlay=!col3_overlay" 
+                          :alert-data="alertData"
+                          button-variant=""
+                          :button-class="col3ButtonClass"
+                          style="margin-top: 45vh; margin-left: -10vw; width: 200%;"></alert-modal>
+                    </template>
                     
-                </div>
+                </b-overlay>
 
             </div>
 
         </div> 
 
-        <!-- <b-overlay :show="overlay"> -->
-
-        <template v-slot:overlay>
+        <!-- <template v-slot:overlay>
             <alert-modal 
-              @emitOverlay="overlay=!overlay" 
+              @emitOverlay="main_overlay=!main_overlay" 
               :alert-data="alertData"
-              :button-class="buttonClass"></alert-modal>
-        </template>
-            
-        <!-- </b-overlay> -->
+              :button-class="mainButtonClass"></alert-modal>
+        </template> -->
+    
 
     </b-overlay>
 
     <b-button variant="primary" @click="submitAnswers()" style="max-width: 95vw; margin: 0 auto; padding: 10px;" 
         class="col-md-12">Selesai!</b-button>
 
-    <!-- <b-button variant="primary" @click="overlay=!overlay">
-        Show overlay
-    </b-button> -->
-    <!-- <div>EXAM PAGE</div>
-    <cheating-log></cheating-log>
-    <webcam-stream></webcam-stream> -->
-    <!-- <video src="https://www.w3schools.com/tags/movie.ogg" height="1080" width="1920"></video> -->
+    <b-button variant="primary" @click="col3_overlay=!col3_overlay">
+        Show col3_overlay
+    </b-button>
+
 </div>
 
 </template>
@@ -84,14 +86,17 @@ export default {
     },
     data() {
         return {
-            overlay: false,
+            main_overlay: false,
+            col3_overlay: false,
             examAnswers: undefined,
             buttonView: false,
             cheatingData: undefined,
             alertData: undefined,
             cheatingMonitoringEndpoint: "http://localhost:3005/stop_monitoring",
             cheatingLogStatus: true,
-            buttonClass: "danger"
+            mainButtonClass: "danger",
+            col3ButtonVariant: "primary",
+            col3ButtonClass: "transparent"
         }
     },
     methods: {
@@ -160,8 +165,10 @@ export default {
             // console.log("cheating data received")
             // console.log(e)
             this.cheatingData = e
-            this.alertData = e[e.length -1][1]
-            this.overlay = !this.overlay
+            this.alertData = "PERHATIAN! " + e[e.length -1][1]
+
+            // this.main_overlay = !this.main_overlay
+            this.col3_overlay = !this.col3_overlay
 
             var container = this.$el.querySelector("#cheating_log");
             container.scrollTop = container.scrollHeight;

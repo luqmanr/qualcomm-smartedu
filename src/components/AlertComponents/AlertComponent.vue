@@ -3,12 +3,11 @@
     <div>
         <b-alert
           :show="dismissCountDown"
-          dismissible
           :variant="buttonVariant"
           @dismissed="dismissCountDown=0"
           @dismiss-count-down="countDownChanged"
           >
-          <div style="padding: 5% 5% 5% 5%;" :class="buttonClass">
+          <div :class="buttonClass">
             <p>{{alertData}}</p>
             <!-- <p>Kecurangan Terdeteksi!!</p> -->
             <p v-if="dismissSecs != 5">{{dismissCountDown}}</p>
@@ -86,5 +85,11 @@ export default {
 }
 .danger {
     background-color: red; color: white; 
+}
+.transparent {
+    font-size: 200%;
+    color: rgb(255, 57, 57);
+    font-weight: bold;
+    text-shadow: -1px -1px 0 rgb(167, 4, 4), 1px -1px 0 rgb(167, 4, 4), -1px 1px 0 rgb(167, 4, 4), 1px 1px 0 rgb(167, 4, 4);
 }
 </style>

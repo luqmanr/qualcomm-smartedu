@@ -91,6 +91,7 @@ export default {
         },
         checkCheatingStatusCode(csv_lines) {
             var line = csv_lines[this.cheatingLogIndex].split(",")
+            
             if (line[2] == "1") {
                 // alert(line)
                 // console.log(line[1], line[2])
@@ -106,8 +107,17 @@ export default {
                 this.cheatingData.push(cheating_line)
                 // console.log(cheating_line)
             } else {
+                this.csvSkipTries = this.csvSkipTries - 1
+
+                if (this.csvSkipTries == 0 ){
+                    var timestamp = ((line[0].split("."))[0].split(" "))[1]
+                    var cheating_line = [timestamp, line[1], line[2]]
+                    this.cheatingData.push(cheating_line)
+
+                    this.csvSkipTries = 3
+                }
                 // console.log(line[1], line[2])
-                return
+                // return
             }
         },
         statusCodeClass(statusCode) {
@@ -115,6 +125,8 @@ export default {
                 return "cheating"
             } else if (statusCode == "2") {
                 return "warning"
+            } else {
+                return "normal"
             }
         },
         skipCSVIndex() { // enable this function if you want to skip a row in the csv file
@@ -153,7 +165,10 @@ export default {
     background-color: rgb(255, 103, 103);
 }
 .warning {
-    background-color: rgb(255, 208, 0);
+    background-color: rgb(255, 115, 0);
+}
+.normal {
+    background-color: rgb(253, 255, 119);
 }
 
 </style>

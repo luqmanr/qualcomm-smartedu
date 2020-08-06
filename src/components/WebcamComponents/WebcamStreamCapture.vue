@@ -16,13 +16,13 @@
                     ref="video"
                     id="video"
                     class="video-image">
-                <!-- <video :src="videoStreamSrc"
+                <!-- <video :src="videoLocalSrc"
                      for="snapout"
                      ref="video"
                      id="video"
                      class="video-image"
-                     playsinline autoplay muted loop>
-                </video> -->
+                     playsinline autoplay muted loop> -->
+                </video>
             </div>
             
             <!-- HASIL WEBCAM SNAPSHOT-->
@@ -108,8 +108,8 @@ export default {
     },
     data() {
         return {
-	        videoStreamSrc: "http://192.168.2.89:8081/video.mjpg?q=30&fps=33&id=0.45397737567418583&r=1595388937742",
-            // videoStreamSrc: Video,
+	        videoStreamSrc: "http://localhost:8081/video.mjpg?q=30&fps=33&id=0.45397737567418583&r=1595388937742",
+            videoLocalSrc: Video,
             videoObject: undefined,
             constraints : {
                 audio: false,
@@ -346,17 +346,17 @@ export default {
 }
 
 .video-wrap {
-    height: 300px;
-    width: 300px;
+    height: 70vh;
+    width: 70vw;
     overflow: hidden;
     margin: auto;
     align-items: center;
     align-self: center;
 } .video-wrap video {
       z-index: 0;
-      height: 300px;
-      width: 400px;
-      margin-left: -50px;
+      height: 70vh;
+      width: 70vw;
+      /* margin-left: -50px; */
   }
   .video-wrap img {
       z-index: 1;
