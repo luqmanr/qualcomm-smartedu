@@ -9,7 +9,7 @@
                 
             </div> -->
 
-            <div id="login_view" class="container-fluid">
+            <div id="login_view" class="container-fluid" style="overflow: hidden;">
 
                 <div class="row" style="max-width: 50vw; margin: auto;">
                     <webcam class="col-md-6"></webcam>
@@ -121,9 +121,14 @@ export default {
             })
         },
         startCheatingMonitoring() {
-            // this.stopAutoTrain()
+            var emailJSON = {
+                "user_email": this.userData.userEmail
+            }
+            console.log(emailJSON)
             axios.post(
                 this.cheatingMonitoringEndpoint,
+                JSON.stringify(emailJSON),
+                {headers :{'Content-Type': 'application/json'}},
                 {timeout: 1000})
               .then(response => {
                   console.log(response)

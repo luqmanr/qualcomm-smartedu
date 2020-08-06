@@ -96,14 +96,14 @@ export default {
                 // alert(line)
                 // console.log(line[1], line[2])
                 var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                var cheating_line = [timestamp, line[1], line[2]]
+                var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
                 // console.log(cheating_line)
             } else if (line[2] == "2") {
                 // console.log(line[1], line[2])
                 var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                var cheating_line = [timestamp, line[1], line[2]]
+                var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
                 // console.log(cheating_line)
             } else {

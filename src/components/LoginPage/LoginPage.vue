@@ -78,7 +78,7 @@ export default {
                 "user_email": this.userData.userEmail,
                 "user_password": this.userData.userPassword
             };  
-            // console.log(userDataJSON);
+            console.log(userDataJSON);
             // Endpoint location
             var apiEndpoint = this.registrationEndpoint
             // hit Endpoint with axios.post

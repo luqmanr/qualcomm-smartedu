@@ -10,12 +10,12 @@
                     ref="video" 
                     playsinline autoplay class="video-image">
                 </video> -->
-                <img v-if="snapshot" :src="snapshot" class="video-image">
+                <img v-if="snapshot" :src="snapshot" class="video-image preview-image">
                 <img :src="videoStreamSrc"
                     for="snapout"
                     ref="video"
                     id="video"
-                    class="video-image">
+                    class="video-image preview-stream">
                 <!-- <video :src="videoLocalSrc"
                      for="snapout"
                      ref="video"
@@ -300,18 +300,9 @@ export default {
     align-items: center;
 }
 
-/* .testingcuy {
-    height: 300px;
-    width: 300px;
-    margin: auto;
-    align-items: center;
-    align-self: center;
+.testingcuy {
     overflow: hidden;
-    background-color: black;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center
-} */
+}
 
 .video-image {
     transform: rotateY(180deg);
@@ -346,21 +337,21 @@ export default {
 }
 
 .video-wrap {
-    height: 70vh;
-    width: 70vw;
+    height: 300px;
+    width: 300px;
     overflow: hidden;
     margin: auto;
     align-items: center;
     align-self: center;
 } .video-wrap video {
       z-index: 0;
-      height: 70vh;
-      width: 70vw;
-      /* margin-left: -50px; */
-  }
-  .video-wrap img {
-      z-index: 1;
-      max-height: 300px;
+      height: 300px;
+      width: 400px;
+      margin-left: -50px;
+  } .video-wrap img {
+      z-index: 0;
+      height: 300px;
+      /* max-width: 600px; */
       margin-left: -50px;
   }
   .video-wrap canvas {

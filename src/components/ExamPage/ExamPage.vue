@@ -179,7 +179,7 @@ export default {
                 // this.$router.push("/"), 3000
                 () => {
                     this.$router.push("/")
-                }, 5000
+                }, 10000
             )
             // this.$router.go(this.$router.push("/"))
         }
