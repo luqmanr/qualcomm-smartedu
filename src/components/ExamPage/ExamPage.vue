@@ -3,11 +3,11 @@
 <div class="row">
     <b-overlay :show="main_overlay" opacity="0.0" style="max-width: 95vw; margin: 0 auto; padding: 10px;">
 
-        <div id="user_formdata" class="container-fluid">
+        <div id="user_formdata" class="container-fluid" style="width: 100vw;">
 
             <div class="row row-1" style="height: 90vh;">
 
-                <div class="col-sm-4 col-md-4 col-xs-4 column-1" id="cheating_log">
+                <div class="col-sm-6 col-md-6 col-xs-6 column-1" id="cheating_log">
 
                     <div style="height:0px;">
                         <cheating-log @emitCheatingData="receiveCheatingData" :monitoring-status="cheatingLogStatus"></cheating-log>
@@ -23,7 +23,7 @@
 
                 </div> -->
 
-                <b-overlay :show="col3_overlay" opacity="0.0" class="col-sm-8 col-md-8 col-xs-8 column-3">
+                <b-overlay no-fade :show="col3_overlay" opacity="0.0" class="col-sm-6 col-md-6 col-xs-6 column-3">
 
                     <div style="height: 100%; width: 100%;">
                         <webcam-stream :button-view="buttonView" style="transform: scale(1.8, 1.8);"></webcam-stream>
@@ -165,7 +165,7 @@ export default {
             // console.log("cheating data received")
             // console.log(e)
             this.cheatingData = e
-            this.alertData = "PERHATIAN! " + e[e.length -1][1]
+            this.alertData = e[e.length -1][1]
 
             // this.main_overlay = !this.main_overlay
             this.col3_overlay = !this.col3_overlay

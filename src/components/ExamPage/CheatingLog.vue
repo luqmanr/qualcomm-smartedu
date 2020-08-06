@@ -105,6 +105,7 @@ export default {
                 var timestamp = ((line[0].split("."))[0].split(" "))[1]
                 var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
+                this.emitCheatingdata()
                 // console.log(cheating_line)
             } else {
                 this.csvSkipTries = this.csvSkipTries - 1
@@ -113,6 +114,7 @@ export default {
                     var timestamp = ((line[0].split("."))[0].split(" "))[1]
                     var cheating_line = [timestamp, line[1], line[2]]
                     this.cheatingData.push(cheating_line)
+                    this.emitCheatingdata()
 
                     this.csvSkipTries = 3
                 }

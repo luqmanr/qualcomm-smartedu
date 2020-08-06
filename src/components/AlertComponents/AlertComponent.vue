@@ -5,8 +5,7 @@
           :show="dismissCountDown"
           :variant="buttonVariant"
           @dismissed="dismissCountDown=0"
-          @dismiss-count-down="countDownChanged"
-          >
+          @dismiss-count-down="countDownChanged">
           <div :class="buttonClass">
             <p>{{alertData}}</p>
             <!-- <p>Kecurangan Terdeteksi!!</p> -->
