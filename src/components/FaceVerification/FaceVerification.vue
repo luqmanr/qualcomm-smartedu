@@ -77,7 +77,7 @@ export default {
 		        userName: ""
             },
             overlay: false,
-            alertData: "Ujian Akan Dimulai dalam... ",
+            alertData: "Selamat Datang: ",
             dismissSecs: 15,
             buttonVariant: "primary",
             buttonClass: "primary"
@@ -85,6 +85,10 @@ export default {
     },
     methods: {
         submitUserData() {
+            if (this.userData.userImage == "" || this.userData.userImage == null) {
+                alert("Silahkan ambil foto muka terlebih dahulu!")
+                return
+            }
             // define JSON struct
             var userDataJSON = {
                 "user_email": this.userData.userEmail,
@@ -101,7 +105,7 @@ export default {
             .then(response => {
                 console.log(response)
                 if (response.data.status == 200) {
-                    alert(response.data.return)
+                    // alert(response.data.return)
                     this.goToExamPage()   
                 } else {
                     alert(response.data.return)
@@ -156,6 +160,7 @@ export default {
     },
     created() {
         this.userData.userEmail = this.$route.query.userEmail
+        this.alertData = this.alertData + this.$route.query.userEmail + "\nUjian akan dimulai dalam..."
         this.userData.userName = this.$route.query.userName
         console.log(this.userData)
         this.receiveSnapshotFromBus()

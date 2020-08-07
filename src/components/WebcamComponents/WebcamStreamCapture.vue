@@ -25,7 +25,7 @@
                 </video>
             </div>
             
-            <!-- HASIL WEBCAM SNAPSHOT-->
+            <!-- HASIL WEBCAM SNAPSHOT -->
             <canvas ref="canvas" 
                 :width="videoMetaData.width" 
                 :height="videoMetaData.height">

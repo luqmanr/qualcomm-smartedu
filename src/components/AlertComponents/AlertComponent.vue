@@ -9,7 +9,7 @@
           <div :class="buttonClass">
             <p>{{alertData}}</p>
             <!-- <p>Kecurangan Terdeteksi!!</p> -->
-            <p v-if="dismissSecs != 5">{{dismissCountDown}}</p>
+            <p v-if="dismissSecs != 5" style="text-align: center">{{dismissCountDown}}</p>
           </div>
             
             <!-- <p>DI SINI NANTI ADALAH PLACEHOLDER CHEATING INFO</p>
@@ -80,7 +80,7 @@ export default {
     font-size: 200%;
     color: rgb(0, 235, 90);
     font-weight: bold;
-    text-shadow: -1px -1px 0 rgb(4, 134, 167), 1px -1px 0 rgb(4, 134, 167), -1px 1px 0 rgb(167, 4, 4), 1px 1px 0 rgb(167, 4, 4);
+    text-shadow: -1px -1px 0 rgb(22, 14, 143), 1px -1px 0 rgb(22, 14, 143), -1px 1px 0 rgb(22, 14, 143), 1px 1px 0 rgb(22, 14, 143);
 }
 .warning {
     font-size: 200%;

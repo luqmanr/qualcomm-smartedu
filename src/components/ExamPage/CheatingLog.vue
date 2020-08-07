@@ -65,32 +65,20 @@ export default {
                     { headers: { Pragma: 'no-cache'}, 
                       timeout: 1000 })
                   .then(response => {
-                        // console.log(response.data)
                         var csv_lines = response.data.split(/\r?\n/)
-                        // if (csv_lines.length -1 > this.cheatingLogIndex) {
-                        //     this.cheatingLogIndex = csv_lines.length - 2
-                        // }
-                        // console.log(csv_lines[1])
-                        // this.cheatingLogIndex = (csv_lines.length) - 1
-                        // console.log(this.cheatingLogIndex)
                         this.cheatingLogUpdate(csv_lines)
-                        // this.emitCheatingdata()
                   }).catch(error => {
                         console.log(error)
-                        // this.cheatingData.push("YOU ARE NOT CHEATING")
-                        // this.emitCheatingdata()
                     })
-            }, 50)
+            }, 100)
         },
         cheatingLogUpdate(csv_lines) {
-            // console.log(csv_lines)
             if (csv_lines[this.cheatingLogIndex] == "" || csv_lines[this.cheatingLogIndex] == null) {
                 // console.log("skipped")
                 // return
                 // this.skipCSVIndex()
             } else {
-                // console.log("not skipped")
-                // this.cheatingData.push(csv_lines[this.cheatingLogIndex])
+
                 this.checkCheatingStatusCode(csv_lines)
                 this.cheatingLogIndex ++
             }            
