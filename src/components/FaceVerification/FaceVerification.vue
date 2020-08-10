@@ -22,7 +22,8 @@
                     </div> -->
                     <div class="row col-md-12">   
                         <div class='col-sm-12 col-md-12 col-xs-12 row button'>
-                            <label  class="col-sm-12 col-md-12 col-xs-12"
+                            <label  v-if="this.userData.userImage"
+				    class="col-sm-12 col-md-12 col-xs-12"
                                     for="submit-userdata">Verifikasi Muka</label>
                             <input  @click="submitUserData()" 
                                     id="submit-userdata" 
@@ -69,8 +70,8 @@ export default {
     },
     data() {
         return {
-            faceVerificationEndpoint: "http://localhost:3005/face_verification",
-            cheatingMonitoringEndpoint: "http://localhost:3005/start_monitoring",
+            faceVerificationEndpoint: "http://192.168.2.80:3005/face_verification",
+            cheatingMonitoringEndpoint: "http://192.168.2.80:3005/start_monitoring",
             userData: {
                 userEmail: "",
                 userImage: "",
@@ -78,7 +79,7 @@ export default {
             },
             overlay: false,
             alertData: "Selamat Datang: ",
-            dismissSecs: 15,
+            dismissSecs: 3,
             buttonVariant: "primary",
             buttonClass: "primary"
         }
@@ -142,7 +143,7 @@ export default {
         },
         stopAutoTrain() {
             axios.post(
-                "http://localhost:3005/stop_autotrain",
+                "http://192.168.2.80:3005/stop_autotrain",
                 {timeout: 3000}
               ).then(response => {
                   console.log(response)
@@ -151,7 +152,8 @@ export default {
               })
         },
         goToExamPage() {
-            this.startCheatingMonitoring()
+            // this.stopAutoTrain()
+            // this.startCheatingMonitoring()
             this.overlay = !this.overlay
             setTimeout(() => {
                 this.$router.push('/exam')

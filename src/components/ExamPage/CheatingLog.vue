@@ -42,7 +42,7 @@ export default {
     methods: {
         fetchCSVIndex() {
             axios.get(
-            'http://localhost:3005/cheating_log',
+            'http://192.168.2.80:3005/cheating_log',
             { headers: { Pragma: 'no-cache'}, 
                 timeout: 1000 })
             .then(response => {
@@ -55,17 +55,18 @@ export default {
             })
         },
         fetchCheatingData() {
-            this.fetchCSVIndex()
+            // this.fetchCSVIndex()
             setInterval(e => {       
                 if (this.monitoringStatus == false) {
                     return
                 }           
                 axios.get(
-                    'http://localhost:3005/cheating_log',
+                    'http://192.168.2.80:3005/cheating_log',
                     { headers: { Pragma: 'no-cache'}, 
-                      timeout: 1000 })
+                      timeout: 10000 })
                   .then(response => {
                         var csv_lines = response.data.split(/\r?\n/)
+                        // console.log(csv_lines[this.cheatingLogIndex])
                         this.cheatingLogUpdate(csv_lines)
                   }).catch(error => {
                         console.log(error)
@@ -86,24 +87,19 @@ export default {
         checkCheatingStatusCode(csv_lines) {
             var line = csv_lines[this.cheatingLogIndex].split(",")
             
+            var timestamp = ((line[0].split("."))[0].split(" "))[1]
+            // console.log(timestamp)
+            var cheating_line = [timestamp, line[3], line[2]]
+
             if (line[2] == "1") {
-                // alert(line)
-                // console.log(line[1], line[2])
-                var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
                 // console.log(cheating_line)
             } else if (line[2] == "2") {
-                // console.log(line[1], line[2])
-                var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
                 // console.log(cheating_line)
             } else if (line[2] == "0") {
-                var timestamp = ((line[0].split("."))[0].split(" "))[1]
-                var cheating_line = [timestamp, line[3], line[2]]
                 this.cheatingData.push(cheating_line)
                 this.emitCheatingdata()
             }

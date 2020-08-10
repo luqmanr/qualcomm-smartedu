@@ -27,15 +27,20 @@ export default {
             logoITB: logoITB
         }
     },
+    methods: {
+        startAutotrain() {
+            axios.post(
+            "http://192.168.2.80:3005/start_autotrain",
+                {timeout: 1000}
+            ).then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    },
     mounted() {
-        axios.post(
-            "http://localhost:3005/start_autotrain",
-            {timeout: 1000}
-        ).then(response => {
-            console.log(response)
-        }).catch(error => {
-            console.log(error)
-        })
+        // this.startAutotrain()
     }
 }
 

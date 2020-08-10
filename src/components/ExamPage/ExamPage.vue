@@ -92,7 +92,7 @@ export default {
             buttonView: false,
             cheatingData: undefined,
             alertData: undefined,
-            cheatingMonitoringEndpoint: "http://localhost:3005/stop_monitoring",
+            cheatingMonitoringEndpoint: "http://192.168.2.80:3005/stop_monitoring",
             cheatingLogStatus: true,
             mainButtonClass: "danger",
             col3ButtonVariant: "primary",

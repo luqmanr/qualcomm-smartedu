@@ -60,7 +60,7 @@ export default {
     },
     data() {
         return {
-            registrationEndpoint: "http://localhost:3005/login_service",
+            registrationEndpoint: "http://192.168.2.80:3005/login_service",
             userData: {
                 userEmail: "",
                 userPassword: ""

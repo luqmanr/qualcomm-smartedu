@@ -86,7 +86,7 @@ export default {
     },
     data() {
         return {
-            registrationEndpoint: "http://localhost:3005/register_user",
+            registrationEndpoint: "http://192.168.2.80:3005/register_user",
             userData: {
                 userName: null,
                 userEmail: null,
@@ -175,7 +175,7 @@ export default {
         },
         startAutoTrain() {
             axios.post(
-                "http://localhost:3005/start_autotrain",
+                "http://192.168.2.80:3005/start_autotrain",
                 {timeout: 3000}
               ).then(response => {
                   console.log(response)
